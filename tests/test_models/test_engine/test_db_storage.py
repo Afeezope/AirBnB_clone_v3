@@ -121,5 +121,3 @@ class TestDBStorage(unittest.TestCase):
         self.assertGreater(storage.count(), storage.count(State))
         with self.assertRaises(TypeError):
             storage.count(State, 'op')
-
-

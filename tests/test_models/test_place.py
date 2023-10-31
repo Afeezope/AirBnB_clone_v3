@@ -36,7 +36,7 @@ class TestPlaceDocs(unittest.TestCase):
 
     def test_place_module_docstring(self):
         """Test for the place.py module docstring"""
-        self.assertNotEqual(place.__doc__, None,
+        self.assertIsNot(place.__doc__, None,
                          "place.py needs a docstring")
         self.assertTrue(len(place.__doc__) >= 1,
                         "place.py needs a docstring")
@@ -51,7 +51,7 @@ class TestPlaceDocs(unittest.TestCase):
     def test_place_func_docstrings(self):
         """Test for the presence of docstrings in Place methods"""
         for func in self.place_f:
-            self.assertNotEqual(func[1].__doc__, None,
+            self.assertIsNot(func[1].__doc__, None,
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
