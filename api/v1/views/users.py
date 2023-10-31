@@ -19,11 +19,11 @@ def get_all_users():
     '''
     # Get all User objects from the storage and convert them to dictionaries
     users = storage.all(User).values()
-    return jsonify([user.to_dict() for user in users])
+    return jsonify([user.to_dict() for user in users]), 200  # Return with 200 OK status
 
 
 # Route for retrieving a specific User object by ID
-@app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['GET'], strict slashes=False)
 def get_user(user_id):
     '''
     Retrieves a User object
@@ -31,8 +31,8 @@ def get_user(user_id):
     # Get the User object with the given ID from the storage
     user = storage.get(User, user_id)
     if user:
-        # Return the User object in JSON format
-        return jsonify(user.to_dict())
+        # Return the User object in JSON format with 200 OK status
+        return jsonify(user.to_dict()), 200
     else:
         # Return 404 error if the User object is not found
         abort(404)
@@ -50,7 +50,7 @@ def delete_user(user_id):
         # Delete the User object from the storage and save changes
         storage.delete(user)
         storage.save()
-        # Return an empty JSON with 200 status code
+        # Return an empty JSON with 200 OK status
         return jsonify({}), 200
     else:
         # Return 404 error if the User object is not found
@@ -58,13 +58,13 @@ def delete_user(user_id):
 
 
 # Route for creating a new User object
-@app_views.route('/users', methods=['POST'], strict_slashes=False)
+@app_views.route('/users', methods=['POST'], strict slashes=False)
 def create_user():
     '''
     Creates a User object
     '''
     # Check if the request data is in JSON format
-    if not request.get_json():
+    if not request.is_json:
         # Return 400 error if the request data is not in JSON format
         abort(400, 'Not a JSON')
 
@@ -81,12 +81,12 @@ def create_user():
     user = User(**data)
     # Save the User object to the storage
     user.save()
-    # Return the newly created User object in JSON format with 201 status code
-    return jsonify(user.to_dict()), 201
+    # Return the newly created User object in JSON format with 201 Created status
+    return jsonify(user.to_dict()), 201  # 201 Created status
 
 
 # Route for updating an existing User object by ID
-@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['PUT'], strict slashes=False)
 def update_user(user_id):
     '''
     Updates a User object
@@ -95,7 +95,7 @@ def update_user(user_id):
     user = storage.get(User, user_id)
     if user:
         # Check if the request data is in JSON format
-        if not request.get_json():
+        if not request.is_json:
             # Return 400 error if the request data is not in JSON format
             abort(400, 'Not a JSON')
 
@@ -109,8 +109,8 @@ def update_user(user_id):
 
         # Save the updated User object to the storage
         user.save()
-        # Return the updated User object in JSON format with 200 status code
-        return jsonify(user.to_dict()), 200
+        # Return the updated User object in JSON format with 200 OK status
+        return jsonify(user.to_dict()), 200  # 200 OK status
     else:
         # Return 404 error if the User object is not found
         abort(404)
@@ -135,6 +135,4 @@ def bad_request(error):
     # Return a JSON response for 400 error
     response = {'error': 'Bad Request'}
     return jsonify(response), 400
-
-
 
